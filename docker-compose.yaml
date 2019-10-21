@@ -1,0 +1,21 @@
+version: '3'
+services:
+  api-rest:
+    build: api-rest
+    ports:
+      - "5000:5000"
+    depends_on:
+      - rabbitmq
+  recolector:
+    build: recolector
+    depends_on:
+      - rabbitmq
+      - mongodb
+  rabbitmq:
+    image: rabbitmq:latest
+    volumes:
+      - ./rabbitmq/rabbitmq-isolated.conf:/etc/rabbitmq/rabbitmq.config
+  mongodb:
+    image: "mongo:latest"
+    ports:
+      - 27017:27017
